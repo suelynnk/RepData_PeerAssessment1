@@ -41,7 +41,9 @@ hist(stepsByDay$steps, main = "Total steps by day", xlab = "day", col = "red")
 ### 3. Calculate and report the mean and median total number of steps taken per day
 ```{r}
 stepsByDayMean <- mean(stepsByDay$steps)
+stepsByDayMean
 stepsByDayMedian <- median(stepsByDay$steps)
+stepsByDayMedian
 ```
 * Mean: 10766.19
 * Median: 10765

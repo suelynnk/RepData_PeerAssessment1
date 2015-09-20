@@ -60,7 +60,20 @@ hist(stepsByDay$steps, main = "Total steps by day", xlab = "day", col = "red")
 
 ```r
 stepsByDayMean <- mean(stepsByDay$steps)
+stepsByDayMean
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 stepsByDayMedian <- median(stepsByDay$steps)
+stepsByDayMedian
+```
+
+```
+## [1] 10765
 ```
 * Mean: 10766.19
 * Median: 10765
