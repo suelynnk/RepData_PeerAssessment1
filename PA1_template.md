@@ -1,45 +1,64 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 ## Loading Libraries
 
-```{r}
+
+```r
 library(lattice)
 ```
 ## Loading and preprocessing the data
 
 ### 1. Load the data (i.e read.csv())
 
-```{r}
+
+```r
 activityData <- read.csv("activity.csv")
 activity<- read.csv("activity.csv")
 head(activityData)
 ```
+
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
 ### 2. Process / transform the data into a form that is suitable
 
-```{r}
-names(activityData)
 
+```r
+names(activityData)
+```
+
+```
+## [1] "steps"    "date"     "interval"
+```
+
+```r
 activityData$interval <- 60*floor((activityData$interval+1)/100) + (activityData$interval %% 100)
 ```
 ## What is mean total number of steps taken per day?
 
 ###1. Calculating the total number of steps taken per day
-```{r}
+
+```r
 stepsByDay <- aggregate(steps ~ date, data = activityData, sum, na.rm = TRUE)
 ```
 
 ### 2. Make a histogram of the total number of steps taken each day
-```{r}
+
+```r
 hist(stepsByDay$steps, main = "Total steps by day", xlab = "day", col = "red")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+
 ### 3. Calculate and report the mean and median total number of steps taken per day
-```{r}
+
+```r
 stepsByDayMean <- mean(stepsByDay$steps)
 stepsByDayMedian <- median(stepsByDay$steps)
 ```
@@ -49,27 +68,35 @@ stepsByDayMedian <- median(stepsByDay$steps)
 ## What is the average daily activity pattern?
 
 ###1. Making a time series plot
-```{r}
+
+```r
 time_series <- tapply(activityData$steps, activityData$interval, mean, na.rm = TRUE)
 
 plot(row.names(time_series), time_series, type = "l", xlab = "5-min interval", 
     ylab = "Average across all Days", main = "Average number of steps taken", 
     col = "red")
+```
 
-```    
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
 
 ##2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r}
+
+```r
 max_act_num <- which(time_series==max(time_series))
 max_act_int <- activityData$interval[max_act_num]
 sprintf("%02d:%02d", floor(max_act_int/60), max_act_int %% 60)
+```
+
+```
+## [1] "08:35"
 ```
 * Most Steps at: 08:35
 
 ## Inputing missing values
 
 ##1. Calculate and report the total number of missing values in the dataset
-```{r}
+
+```r
 numMissingValues<-sum(is.na(activityData))
 ```
 * Number of missing values: 2304
@@ -77,7 +104,8 @@ numMissingValues<-sum(is.na(activityData))
 ##2. Devise a strategy for filling in all of the missing values in the dataset. The strategy dows not need to be sophisticated. 
 
 ###The daily activity pattern is used to input into these missing values. The average number of steps for that 5 minute interva is used as a replacement of the missing value.
-```{r}
+
+```r
 StepsAverage <- aggregate(steps ~ interval, data = activityData, FUN = mean)
 fillNA <- numeric()
 
@@ -93,22 +121,38 @@ for (i in 1:nrow(activityData)) {
 ```
 
 ##3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
-```{r}
+
+```r
 new_activity <- activityData
 new_activity$steps <- fillNA
 ```
 
 ##4. Make a histogram of the total number of steps taken each day
-```{r}
+
+```r
 StepsTotal2 <- aggregate(steps ~ date, data = new_activity, sum, na.rm = TRUE)
 
 hist(StepsTotal2$steps, main = "Total steps by day", xlab = "day", col = "red")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+
 ## ... and Calculate and report the mean and median total number of steps taken per day.
-```{r}
+
+```r
 mean(StepsTotal2$steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(StepsTotal2$steps)
+```
+
+```
+## [1] 10766.19
 ```
 *Mean (Imputed): 10766.19
 *Median (Imputed): 10766.19
@@ -118,15 +162,18 @@ median(StepsTotal2$steps)
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ## 1. Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
-```{r}
+
+```r
 activityData$day <- weekdays(as.Date(activityData$date))
 ```
 
-```{r}
+
+```r
 daylevel <- vector()
 ```
 
-```{r}
+
+```r
 for (i in 1:nrow(activityData)) {
     if (activityData$day[i] == "Saturday") {
         daylevel[i] <- "Weekend"
@@ -144,7 +191,8 @@ names(stepsByDay) <- c("interval", "daylevel", "steps")
 ```
 
 ##2. Make a panel plot containing a time series plot
-```{r}
+
+```r
 xyplot(steps ~ interval | factor(daylevel),
        data=stepsByDay,
        type = 'l',
@@ -152,3 +200,5 @@ xyplot(steps ~ interval | factor(daylevel),
        xlab="5-Minute Intervals",
        ylab="Average Steps Taken")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
