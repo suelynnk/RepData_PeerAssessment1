@@ -65,8 +65,10 @@ plot(row.names(time_series), time_series, type = "l", xlab = "5-min interval",
 max_act_num <- which(time_series==max(time_series))
 max_act_int <- activityData$interval[max_act_num]
 sprintf("%02d:%02d", floor(max_act_int/60), max_act_int %% 60)
+max_act_int
 ```
 * Most Steps at: 08:35
+* Maximum number of steps: 515
 
 ## Inputing missing values
 

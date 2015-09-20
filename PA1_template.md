@@ -103,7 +103,16 @@ sprintf("%02d:%02d", floor(max_act_int/60), max_act_int %% 60)
 ```
 ## [1] "08:35"
 ```
+
+```r
+max_act_int
+```
+
+```
+## [1] 515
+```
 * Most Steps at: 08:35
+* Maximum number of steps: 515
 
 ## Inputing missing values
 
