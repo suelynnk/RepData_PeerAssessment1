@@ -196,10 +196,9 @@ hist(StepsTotal2$steps, main = &quot;Total steps by day&quot;, xlab = &quot;day&
 </div>
 <div id="create-a-new-factor-variable-in-the-dataset-with-two-levels---weekday-and-weekend-indicating-whether-a-given-date-is-a-weekday-or-weekend-day." class="section level2">
 <h2>1. Create a new factor variable in the dataset with two levels - “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.</h2>
-<pre class="r"><code>activityData$day &lt;- weekdays(as.Date(activityData$date))
-daylevel &lt;- vector()
-
-for (i in 1:nrow(activityData)) {
+<pre class="r"><code>activityData$day &lt;- weekdays(as.Date(activityData$date))</code></pre>
+<pre class="r"><code>daylevel &lt;- vector()</code></pre>
+<pre class="r"><code>for (i in 1:nrow(activityData)) {
     if (activityData$day[i] == &quot;Saturday&quot;) {
         daylevel[i] &lt;- &quot;Weekend&quot;
     } else if (activityData$day[i] == &quot;Sunday&quot;) {

@@ -187,8 +187,15 @@ median(StepsTotal2$steps)
 
 ```r
 activityData$day <- weekdays(as.Date(activityData$date))
-daylevel <- vector()
+```
 
+
+```r
+daylevel <- vector()
+```
+
+
+```r
 for (i in 1:nrow(activityData)) {
     if (activityData$day[i] == "Saturday") {
         daylevel[i] <- "Weekend"
@@ -216,4 +223,4 @@ xyplot(steps ~ interval | factor(daylevel),
        ylab="Average Steps Taken")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-15-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
